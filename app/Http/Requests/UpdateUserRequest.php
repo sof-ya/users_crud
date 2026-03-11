@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -24,9 +26,9 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'string'],
-            'email' => ['sometimes', 'email'],
+            'email' => ['sometimes', 'email', Rule::unique(User::class, 'email')->where('id', $this->user->id)->ignore($this->user)],
             'password' => ['sometimes', 'string'],
-            'phone' => ['sometimes', 'integer'],
+            'phone' => ['sometimes', 'integer', 'regex:/^7\d{10,14}$/', (Rule::unique(User::class, 'phone')->where('id', $this->user->id)->ignore($this->user))],
         ];
     }
 }

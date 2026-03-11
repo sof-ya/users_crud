@@ -26,7 +26,7 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
-            'phone' => ['nullable', 'integer'],
+            'phone' => ['nullable', 'integer', 'regex:/^7\d{10,14}$/'],
         ];
     }
 }
