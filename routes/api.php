@@ -13,6 +13,8 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware(['auth:api'])->group(function () {
-    Route::apiResource('users', UserController::class)->except(['update']);
+    Route::apiResource('users', UserController::class)->except(['store', 'update']);
     Route::patch('users/{user}', [UserController::class, 'update']);
 });
+
+Route::post('users', [UserController::class, 'store']);
