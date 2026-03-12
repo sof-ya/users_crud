@@ -5,6 +5,10 @@ namespace App\Services;
 use App\DTO\User\CreateUserDTO;
 use App\DTO\User\UpdateUserDTO;
 use App\Models\User;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserService implements UserServiceInterface
 {
@@ -36,5 +40,15 @@ class UserService implements UserServiceInterface
     {
         $user->delete();
         return;
+    }
+
+    public function updateAvatar(UploadedFile $upload, User $user): void 
+    {
+        $image = Image::read($upload)
+            ->crop(700, 700, (Image::read($upload)->width()-700)/2, (Image::read($upload)->height()-700)/2);
+
+        $fileName = Str::random() . '.' . $upload->getClientOriginalExtension();
+        Storage::put($fileName, $image->encodeByExtension($upload->getClientOriginalExtension()));
+        $user->update(['avatar' => $fileName]);
     }
 }

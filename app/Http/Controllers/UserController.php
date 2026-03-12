@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTO\User\CreateUserDTO;
 use App\DTO\User\UpdateUserDTO;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateAvatarRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -12,7 +13,6 @@ use App\Services\UserServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -85,5 +85,13 @@ class UserController extends Controller
         $userService->delete($user);
 
         return response()->json([], JsonResponse::HTTP_NO_CONTENT);
+    }
+
+    function updateAvatar(UpdateAvatarRequest $request, User $user, UserServiceInterface $userService) 
+    {
+        $data = $request->validated();
+        $upload = $data['file'];
+
+        $userService->updateAvatar($upload, $user);
     }
 }
