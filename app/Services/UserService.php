@@ -48,7 +48,7 @@ class UserService implements UserServiceInterface
             ->crop(700, 700, (Image::read($upload)->width()-700)/2, (Image::read($upload)->height()-700)/2);
 
         $fileName = Str::random() . '.' . $upload->getClientOriginalExtension();
-        Storage::put($fileName, $image->encodeByExtension($upload->getClientOriginalExtension()));
+        Storage::disk('public')->put($fileName, $image->encodeByExtension($upload->getClientOriginalExtension()));
         $user->update(['avatar' => $fileName]);
     }
 }
