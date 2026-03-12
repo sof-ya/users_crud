@@ -19,3 +19,7 @@ Route::get('/update', function () {
     return view('user-update');
 });
 
+Route::get('/update-avatar', function () {
+    return view('user-update-avatar');
+});
+
