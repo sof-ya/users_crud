@@ -18,3 +18,4 @@ Route::middleware(['auth:api'])->group(function () {
 });
 
 Route::post('users', [UserController::class, 'store'])->name('users.store');
+Route::post('users/{user}/avatar', [UserController::class, 'updateAvatar'])->name('users.updateAvatar');
